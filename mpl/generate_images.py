@@ -8,9 +8,11 @@
     - call show() in __main__ (so it's not used when imported)
 '''
 
+#todo: interdependence
+
 import sys
 from sys import argv
-from plot.mympl import MyMPL
+from bardeen.plot.mympl import MyMPL
 #from settings import temp_dir, image_dir
 from coordinates.raw_data import conv_raw_data
 from fitting.visualize_results import bar_error_minima

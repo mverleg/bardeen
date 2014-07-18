@@ -13,16 +13,14 @@ from re import compile
 from os.path import join
 from types import MethodType, StringTypes
 from collections import defaultdict
-
+from bardeen.mpl.mympl_order import MPLorder
+from bardeen.mpl.mympl_ax import boynton_colors, color_cycle_scatter, small_pad_xlabel, small_pad_ylabel, plotim
 import matplotlib
 from matplotlib.pyplot import subplots as mpl_subplots
 from matplotlib.pyplot import figure as mpl_figure
 from matplotlib.pyplot import show as mpl_show
 from matplotlib.pyplot import close as mpl_close
 from numpy import array, concatenate, ndarray
-
-from mpl.mympl_ax import boynton_colors, color_cycle_scatter, small_pad_xlabel, small_pad_ylabel, plotim
-from mympl_order import MPLorder
 
 
 '''
