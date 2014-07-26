@@ -1,6 +1,6 @@
 
 '''
-	change matplotlib plotting functions a little to make saving 
+	change matplotlib plotting functions a little to make saving
 	images easier and fix minor nuicances
 	- subplots returns one list of axis objects rather than a list of lists
 	- closing one figure will close all the figures
@@ -12,7 +12,7 @@ from itertools import cycle
 from re import compile
 from os.path import join
 from types import MethodType, StringTypes
-from collections import defaultdict
+from collection import defaultdict
 from bardeen.mpl.mympl_order import MPLorder
 from bardeen.mpl.mympl_ax import boynton_colors, color_cycle_scatter, small_pad_xlabel, small_pad_ylabel, plotim
 import matplotlib
@@ -27,13 +27,13 @@ from numpy import array, concatenate, ndarray
 	Singleton class that keeps track of figures
 '''
 class BaseMPL(object):
-	
+
 	''' max_width, overriden by order if there is one '''
 	max_width = 6.17
-	
+
 	''' extension may also be a list of extensions '''
 	def __init__(self, save_all = False, extension = 'png', directory = '.'):
-		
+
 		''' operation settings '''
 		self.save_all = save_all
 		self.directory = directory
@@ -41,12 +41,12 @@ class BaseMPL(object):
 			self.default_extension = [extension]
 		else:
 			self.default_extension = extension
-		
+
 		''' pgf backend settings '''
 		matplotlib.rcParams['text.latex.unicode'] = True
 		#matplotlib.rcParams['text.usetex'] = True
 		matplotlib.rcParams['pgf.texsystem'] = 'pdflatex'
-		
+
 		''' register single instance '''
 		try:
 			self.__class__.single_instance
@@ -59,10 +59,10 @@ class BaseMPL(object):
 		''' initial variables '''
 		self.all_figures = []
 		self.orders = defaultdict(list)
-	
+
 	def default_font_properties(self):
 		raise NotImplementedError()
-	
+
 	''' get the singleton instance '''
 	@classmethod
 	def instance(cls, *args, **kwargs):
@@ -71,7 +71,7 @@ class BaseMPL(object):
 		except AttributeError:
 			cls.single_instance = cls(*args, **kwargs)
 		return cls.single_instance
-	
+
 	''' better subplots function '''
 	def subplots(self, ver = 1, hor = 1, label = None, figsize = (None, None), tight_layout = True, show_toolbar = False, total = None, dpi = 120, save_dpi = 300, *args, **kwargs):
 		''' create tiles if total set '''
@@ -159,13 +159,13 @@ class BaseMPL(object):
 		self.all_figures.append(fig)
 		''' return '''
 		return (fig, axi) if axi is not None else fig
-	
+
 	''' better figure function '''
 	def figure(self, *args, **kwargs):
 		return self.subplots(ver = 0, hor = 0, *args, **kwargs)[0]
-	
+
 	''' better show function '''
-	''' you can pass callbacks to call after showing, to have sort of 'non-blocking' behaviour 
+	''' you can pass callbacks to call after showing, to have sort of 'non-blocking' behaviour
 		use functools.partial if you want to supply any arguments '''
 	def show(self, callbacks = [], close_immediately = False, *args, **kwargs):
 		for fig in self.all_figures:
@@ -206,16 +206,16 @@ class BaseMPL(object):
 				print '\'%s\' (\'%s\')' % (order.label, order.filename)
 		''' show all figures to prevent error '''
 		mpl_show()
-	
+
 	def close(self, callbacks = [], *args, **kwargs):
 		self.show(callbacks = callbacks, close_immediately = True, *args, **kwargs)
-	
+
 	''' tell MyMPL to save a figure if it occurs in the future '''
 	def order(self, label, filename = None, **kwargs):
 		if filename is None:
 			filename = label
 		self.orders[label].append(MPLorder(label, filename, **kwargs))
-	
+
 	''' close all figures '''
 	@classmethod
 	def close_all(cls, event):

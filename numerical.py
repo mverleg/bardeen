@@ -20,4 +20,6 @@ def laplacian(N, dtype = float64):
 			 - eye(N, k = -1, dtype = dtype) + \
 			 - eye(N, k = 1, dtype = dtype)
 
-
+"""
+	NOTE: if you add something, write a test!
+"""
