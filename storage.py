@@ -1,15 +1,65 @@
 
-from json import dumps, loads, encoder
+"""
+	utility methods for storing and retrieving data structures
+"""
+
+from numpy import save, load, savetxt, loadtxt, float64
+from json import dumps, loads
 import gzip
 
 
-'''
-	store a python dictionary with simple int, float, unicode elements
-	as a easily readable config file
-	dict keys (config optinos) are not allowed to contain whitespace
-	- note that string '0123' will be loaded as integer 123
-'''
+"""
+	numpy arrays
+"""
+
+
+def store_array(arr, filename, header = ''):
+	"""
+		store a numpy array in a format readable by many programs
+		(whitespace delimitered plain text with # header)
+	"""
+	if 'int' in unicode(arr.dtype):
+		fmt = '%18d'
+	else:
+		fmt = '%.18e'
+	savetxt(filename, arr, fmt = fmt, delimiter = '\t', newline = '\n', header = header)
+
+
+def load_array(filename, dtype = float64):
+	"""
+		load a tab-delimitered array, e.g. as stored by store_array
+	"""
+	return loadtxt(filename, dtype = dtype, delimiter = '\t')
+
+
+def store_array_bin(arr, filename):
+	"""
+		store as binary, single-array numpy file
+		extension .npy is strongly recommended
+	"""
+	#todo: maybe gzip later
+	save(filename, arr)
+
+
+def load_array_bin(filename):
+	"""
+		load a binary, single-array numpy file
+	"""
+	return load(filename)
+
+
+"""
+	dictionaries
+"""
+
+
 def store_conf(dicti, filename, header = None):
+	"""
+		store a python dictionary with simple int, float, unicode elements
+		as a easily readable config file
+		dict keys (config optinos) are not allowed to contain whitespace
+		- note that string '0123' will be loaded as integer 123
+	"""
 	with open(filename, 'w+') as fh:
 		for line in header.split('\n'):
 			fh.write('# %s\n' % line)
@@ -35,10 +85,11 @@ def store_conf(dicti, filename, header = None):
 				value,
 			))
 
-'''
-	load a whitespace-delimitered config file, e.g. as stored by store_conf
-'''
+
 def load_conf(filename):
+	"""
+		load a whitespace-delimitered config file, e.g. as stored by store_conf
+	"""
 	with open(filename, 'r') as fh:
 		dicti = {}
 		''' http://stackoverflow.com/questions/15233340/getting-rid-of-n-when-using-readlines '''
@@ -65,14 +116,15 @@ def load_conf(filename):
 				dicti[key] = value
 	return dicti
 
-'''
-	store a dictionary as json
-	if compress then the file is gzipped and .gz is appended to the filename
-	- None is allowed for values but not keys
-	- note that floats will be slightly different when loaded
-'''
+
 def store_dict(dicti, filename, compressed = False):
-	''' http://stackoverflow.com/questions/1447287/format-floats-with-standard-json-module '''
+	"""
+		store a dictionary as json
+		if compress then the file is gzipped and .gz is appended to the filename
+		- None is allowed for values but not keys
+		- note that floats will be slightly different when loaded
+	"""
+	""" http://stackoverflow.com/questions/1447287/format-floats-with-standard-json-module """
 	if compressed:
 		filename = '%s.gz' % filename
 		fh = gzip.open(filename, 'wb+')
@@ -83,10 +135,11 @@ def store_dict(dicti, filename, compressed = False):
 	fh.write(jsn)
 	fh.close()
 
-'''
-	load a binary, single-array numpy file
-'''
+
 def load_dict(filename, compressed = False):
+	"""
+		load a binary, single-array numpy file
+	"""
 	if compressed:
 		if not filename.endswith('.gz'):
 			filename = '%s.gz' % filename
