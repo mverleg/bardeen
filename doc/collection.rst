@@ -1,0 +1,7 @@
+
+Collection
+==================================
+
+.. automodule:: collection
+   :members:
+
