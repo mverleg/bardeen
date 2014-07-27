@@ -1,10 +1,28 @@
 
 """
-	change matplotlib plotting functions a little to make saving
-	images easier and fix minor nuicances
-	- subplots returns one list of axis objects rather than a list of lists
-	- closing one figure will close all the figures
-	- make tight layout the default
+	An extension for matplotlib which adds many miscellaneous pieces of functionality. The main purpose is to
+	integrate well with LaTeX, allowing figures to be exported with the correct fonts, display settings and
+	dimensions to fit into LaTeX documents perfectly.
+
+	>>> from mpl import subplots, show
+
+	Functionality includes:
+
+	* use :ref: order to mark a figure to be saved automatically as it's shown
+	* provide only the total number of subplots, and get a list result
+	* change some default settings, e.g. turn tight_layout on and toolbar off
+	* closing one figure will close all figures automatically
+	* ``ax.plotim`` plots the real, imaginary and absolute of a complex function
+	* callbacks for show(), to have non-blocking behaviour
+	* automatically cycles through high-contrast colors when plotting multiple lines
+	* various positioning and axis parameters
+
+	Please note that:
+
+	* some function signatures are changed for this version.
+	* the xkcd version of matplotlib is available by creating the mpl class from the .xkcd module.
+
+	>>> from mpl.xkcd import subplots, show
 """
 
 from itertools import cycle
@@ -24,7 +42,11 @@ from numpy import array, concatenate, ndarray
 
 class BaseMPL(object):
 	"""
-		singleton class that keeps track of figures and allows to save them automatically by label
+		Singleton class that keeps track of figures and allows to save them automatically by label.
+
+		Methods :method:figure can also be imported directly
+
+		>>> from mpl import figure, subplots, show, order, close
 	"""
 
 	''' max_width, overriden by order if there is one '''
@@ -32,7 +54,7 @@ class BaseMPL(object):
 
 	def __init__(self, save_all = False, extension = 'png', directory = '.'):
 		"""
-			initialize the mpl class with some settings for saving figures
+			Initialize the mpl class with some settings for saving figures.
 
 			:param save_all: (bool) if changed to True, all figures are saved
 			:param extension: (str) extension or (list) of extensions which will be used for saving
@@ -71,7 +93,7 @@ class BaseMPL(object):
 	@classmethod
 	def instance(cls, *args, **kwargs):
 		"""
-			get the singleton instance
+			Get the singleton instance.
 		"""
 		try:
 			cls.single_instance
@@ -81,14 +103,14 @@ class BaseMPL(object):
 
 	def subplots(self, ver = 1, hor = 1, label = None, figsize = (None, None), tight_layout = True, show_toolbar = False, total = None, dpi = 120, save_dpi = 300, **kwargs):
 		"""
-			improved subplots function
+			Improved subplots function.
 
-			figures can be saved automatically using :ref: order before generating them
+			Figures can be saved automatically using :ref: order before generating them.
 
-			changes figure size and dpi to easily such that figures can fit perfectly into LaTeX documents
+			Changes figure size and dpi to easily such that figures can fit perfectly into LaTeX documents.
 
-			many default display parameters changed incl tight layout by default, supply total figures without order,
-			turn toolbar off
+			Many default display parameters changed incl tight layout by default, supply total figures without order,
+			turn toolbar off.
 
 			:param ver: (int) number of vertical subplots (overriden if :ref: total is set)
 			:param hor: (int) number of horizontal subplots (overriden if :ref: total is set)
@@ -132,7 +154,8 @@ class BaseMPL(object):
 			figsize = (max_width, scale * figsize[1])
 		disp_dpi = dpi
 		''' hide toolbar unless otherwise specified '''
-		matplotlib.rcParams['toolbar'] = 'None'
+		if not show_toolbar:
+			matplotlib.rcParams['toolbar'] = 'None'
 		''' fix a bug with minus sign not showing '''
 		matplotlib.rcParams['axes.unicode_minus'] = False
 		''' change the default color cycle '''
@@ -143,11 +166,11 @@ class BaseMPL(object):
 		''' the actual figure '''
 		if hor <= 0 or ver <= 0:
 			''' create empty figure if no subplots requested '''
-			fig = mpl_figure(figsize = figsize, dpi = disp_dpi, *args, **kwargs)
+			fig = mpl_figure(figsize = figsize, dpi = disp_dpi, **kwargs)
 			axi = array([])
 		else:
 			''' create the requested subplots '''
-			fig, axi = mpl_subplots(ver, hor, figsize = figsize, dpi = disp_dpi, *args, **kwargs)
+			fig, axi = mpl_subplots(ver, hor, figsize = figsize, dpi = disp_dpi, **kwargs)
 			''' tight layout unless otherwise specified '''
 			if tight_layout:
 				fig.tight_layout(rect = [.045, .03, 1., 1.], pad = .1, w_pad = 2., h_pad = 1.)
@@ -190,16 +213,16 @@ class BaseMPL(object):
 
 	def figure(self, *args, **kwargs):
 		"""
-			improved figure function; simply calls .subplots()
+			Improved figure function; simply calls :ref:subplots.
 		"""
 		return self.subplots(ver = 0, hor = 0, *args, **kwargs)[0]
 
 	def show(self, callbacks = [], close_immediately = False, *args, **kwargs):
 		"""
-			improved show function
+			Improved show function.
 
-			you can pass callbacks to call after showing, to have sort of 'non-blocking' behaviour
-			use functools.partial if you want to supply any arguments
+			You can pass callbacks to call after showing, to have sort of 'non-blocking' behaviour
+			use functools.partial if you want to supply any arguments.
 		"""
 		for fig in self.all_figures:
 			''' save the figure if it has been ordered '''
@@ -245,7 +268,7 @@ class BaseMPL(object):
 
 	def order(self, label, filename = None, **kwargs):
 		"""
-			tell MyMPL to save a figure if it occurs in the future
+			Tell MPL to save a figure if it occurs in the future.
 		"""
 		if filename is None:
 			filename = label
@@ -253,9 +276,6 @@ class BaseMPL(object):
 
 	@classmethod
 	def close_all(cls, event):
-		"""
-			close all figures
-		"""
 		for fig in cls.instance().all_figures:
 			mpl_close(fig)
 		cls.instance().all_figures = []

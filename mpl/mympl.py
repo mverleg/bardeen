@@ -8,7 +8,7 @@ from bardeen.mpl.base import *
 
 class MyMPL(BaseMPL):
 	"""
-		version of mpl class, which sets some properties for LaTeX compatibility
+		Version of mpl class, which sets some properties for LaTeX compatibility
 	"""
 
 	def __init__(self, save_all = False, extension = 'png', directory = '.'):

@@ -15,7 +15,7 @@ import gzip
 
 def store_array(arr, filename, header = ''):
 	"""
-		store a numpy array in a format readable by many programs
+		Store a numpy array in a format readable by many programs
 		(whitespace delimitered plain text with # header)
 	"""
 	if 'int' in unicode(arr.dtype):
@@ -27,14 +27,15 @@ def store_array(arr, filename, header = ''):
 
 def load_array(filename, dtype = float64):
 	"""
-		load a tab-delimitered array, e.g. as stored by store_array
+		Load a tab-delimitered array, e.g. as stored by :ref: store_array
 	"""
 	return loadtxt(filename, dtype = dtype, delimiter = '\t')
 
 
 def store_array_bin(arr, filename):
 	"""
-		store as binary, single-array numpy file
+		Store as binary, single-array numpy file
+
 		extension .npy is strongly recommended
 	"""
 	#todo: maybe gzip later
@@ -43,7 +44,7 @@ def store_array_bin(arr, filename):
 
 def load_array_bin(filename):
 	"""
-		load a binary, single-array numpy file
+		Load a binary, single-array numpy file
 	"""
 	return load(filename)
 
@@ -55,13 +56,19 @@ def load_array_bin(filename):
 
 def store_conf(dicti, filename, header = None):
 	"""
-		store a python dictionary with simple int, float, unicode elements
-		as a easily readable config file
-		dict keys (config optinos) are not allowed to contain whitespace
-		- note that string '0123' will be loaded as integer 123
+		Store a python dictionary with simple int, float, unicode elements
+		as a easily readable config file.
+
+		:param dicti: (dict) dictionary to store; keys (config options) are not allowed to contain whitespace
+		:param filename: (string) path to store the file
+		:param header: (string/None) if string, added at the beginning of the file
+
+		* ``None`` is allowed for values but not keys
+		* Note that floats will be slightly different when loaded
+		* Note that string '0123' will be loaded as integer 123
 	"""
 	with open(filename, 'w+') as fh:
-		for line in header.split('\n'):
+		for line in header.splitlines():
 			fh.write('# %s\n' % line)
 		for key, value in dicti.items():
 			if isinstance(key, basestring):
@@ -88,7 +95,7 @@ def store_conf(dicti, filename, header = None):
 
 def load_conf(filename):
 	"""
-		load a whitespace-delimitered config file, e.g. as stored by store_conf
+		Load a whitespace-delimitered config file, e.g. as stored by :ref: store_conf.
 	"""
 	with open(filename, 'r') as fh:
 		dicti = {}
@@ -119,11 +126,16 @@ def load_conf(filename):
 
 def store_dict(dicti, filename, compressed = False):
 	"""
-		store a dictionary as json
-		if compress then the file is gzipped and .gz is appended to the filename
-		- None is allowed for values but not keys
-		- note that floats will be slightly different when loaded
+		Store a dictionary as json.
+
+		:param dicti: (dict) dictionary to store
+		:param filename: (string) path to store the file; .gz is appended if compressed
+		:param compressed: if True, the file is gzipped and .gz is appended to the filename
+
+		* Contrary to :ref: store_conf, whitespace in keys is allowed
+		* See notes at :ref: store_conf
 	"""
+	# todo: questionable whether the appending of .gz is a good idea; expect `filename` to be the actual filename
 	""" http://stackoverflow.com/questions/1447287/format-floats-with-standard-json-module """
 	if compressed:
 		filename = '%s.gz' % filename
@@ -138,7 +150,10 @@ def store_dict(dicti, filename, compressed = False):
 
 def load_dict(filename, compressed = False):
 	"""
-		load a binary, single-array numpy file
+		Load a json dictionary file, such as created by :ref: store_dict.
+
+		If compressed is True and the file does not end in .gz, it is automatically appended
+		(since store_dict appends it).
 	"""
 	if compressed:
 		if not filename.endswith('.gz'):

@@ -1,11 +1,6 @@
 
 '''
-	change matplotlib plotting functions a little to make saving
-	images easier and fix minor nuicances
-	- subplots returns one list of axis objects rather than a list of lists
-	- closing one figure will close all the figures
-	- make tight layout the default
-	!! saving stuff
+	XKCD version of Matplotlib
 '''
 
 from bardeen.mpl.base import *
@@ -25,3 +20,17 @@ class MyMPL(BaseMPL):
 		return {}
 
 
+def figure(*args, **kwargs):
+	return MyMPL.instance().figure(*args, **kwargs)
+
+def subplots(*args, **kwargs):
+	return MyMPL.instance().subplots(*args, **kwargs)
+
+def show(*args, **kwargs):
+	return MyMPL.instance().show(*args, **kwargs)
+
+def close(*args, **kwargs):
+	return MyMPL.instance().close(*args, **kwargs)
+
+def order(*args, **kwargs):
+	MyMPL.instance().order(*args, **kwargs)
