@@ -6,6 +6,7 @@
 from os import link, makedirs
 from shutil import copyfile
 from errno import EEXIST
+from os.path import exists, isdir
 
 
 def link_else_copy(filename_from, filename_to):
@@ -34,11 +35,16 @@ def mkdirp(dir_path):
 		:param dir_path: path whose components will be created as directories
 		:raise: OSError for unexpected problems; no error if directory already exists
 	"""
+	if exists(dir_path) and not isdir(dir_path):
+		raise OSError('"%s" already exists, but is not a directory' % dir_path)
 	try:
 		makedirs(dir_path)
 	except OSError as err:
 		if err.errno != EEXIST:
 			raise
 
+"""
+	NOTE: if you add something, write a test!
+"""
 
 
