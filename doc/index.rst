@@ -12,6 +12,10 @@ Contents:
     :maxdepth: 2
 
     collection
+    numerical
+    storage
+    system
+    testutils
 
 
 Indices and tables
