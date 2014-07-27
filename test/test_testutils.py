@@ -4,9 +4,11 @@
 """
 
 import string
+from math import pi
 from re import match
-from bardeen.testutils import printable_line, get_random_string, get_random_word, create_file
+from bardeen.testutils import printable_line, get_random_string, get_random_word, create_file, dict_round_floats
 from os.path import isfile, abspath
+from numpy import float64
 
 
 def check_letters_presence(word_generator, available_letters):
@@ -59,5 +61,18 @@ def test_create_file(tmpdir):
 	file_path = create_file(unicode(tmpdir))
 	assert isfile(file_path)
 	assert abspath(file_path).startswith(abspath(unicode(tmpdir))), 'check correct directory'
+
+
+def test_dict_round_floats():
+	test_dict = {
+		pi: float64(pi),
+		'3.1415': None,
+	}
+	validate_dict = {
+		3.14: float64(3.14),
+		'3.1415': None,
+	}
+	dict_round_floats(test_dict, 2)
+	assert test_dict == validate_dict
 
 

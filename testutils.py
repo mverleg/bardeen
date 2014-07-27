@@ -34,6 +34,23 @@ def create_file(dir_path):
 	fh.close()
 	return file_path
 
+
+def dict_round_floats(dicti, decim = 6):
+	"""
+		go through a dict and round all floats (in keys and values) to a specific number of decimal places, to make it
+		possible to compare a dict that has been saved and loaded, or some math applied
+
+		:return: no return value; substitution happens in-place!
+	"""
+	for key, value in dicti.items():
+		if isinstance(key, float):
+			''' this also matches for numpy.float64 etc '''
+			del dicti[key]
+			key = round(key, decim)
+			dicti[key] = value
+		if isinstance(value, float):
+			dicti[key] = round(value, decim)
+
 """
 	NOTE: if you add something, write a test!
 """

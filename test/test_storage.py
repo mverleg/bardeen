@@ -7,7 +7,7 @@
 
 from os.path import join
 from random import random
-from bardeen.collection import dict_round_floats
+from bardeen.testutils import dict_round_floats
 from bardeen.storage import store_array, load_array, store_array_bin, \
 	load_array_bin, store_conf, load_conf, store_dict, load_dict
 from numpy import array_equal, float64, exp, complex128
