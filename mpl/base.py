@@ -1,12 +1,11 @@
 
-'''
+"""
 	change matplotlib plotting functions a little to make saving
 	images easier and fix minor nuicances
 	- subplots returns one list of axis objects rather than a list of lists
 	- closing one figure will close all the figures
 	- make tight layout the default
-	!! saving stuff
-'''
+"""
 
 from itertools import cycle
 from re import compile
@@ -23,16 +22,22 @@ from matplotlib.pyplot import close as mpl_close
 from numpy import array, concatenate, ndarray
 
 
-'''
-	Singleton class that keeps track of figures
-'''
 class BaseMPL(object):
+	"""
+		singleton class that keeps track of figures and allows to save them automatically by label
+	"""
 
 	''' max_width, overriden by order if there is one '''
 	max_width = 6.17
 
-	''' extension may also be a list of extensions '''
 	def __init__(self, save_all = False, extension = 'png', directory = '.'):
+		"""
+			initialize the mpl class with some settings for saving figures
+
+			:param save_all: (bool) if changed to True, all figures are saved
+			:param extension: (str) extension or (list) of extensions which will be used for saving
+			:param directory: (str) directory to save figures
+		"""
 
 		''' operation settings '''
 		self.save_all = save_all
@@ -63,17 +68,40 @@ class BaseMPL(object):
 	def default_font_properties(self):
 		raise NotImplementedError()
 
-	''' get the singleton instance '''
 	@classmethod
 	def instance(cls, *args, **kwargs):
+		"""
+			get the singleton instance
+		"""
 		try:
 			cls.single_instance
 		except AttributeError:
 			cls.single_instance = cls(*args, **kwargs)
 		return cls.single_instance
 
-	''' better subplots function '''
-	def subplots(self, ver = 1, hor = 1, label = None, figsize = (None, None), tight_layout = True, show_toolbar = False, total = None, dpi = 120, save_dpi = 300, *args, **kwargs):
+	def subplots(self, ver = 1, hor = 1, label = None, figsize = (None, None), tight_layout = True, show_toolbar = False, total = None, dpi = 120, save_dpi = 300, **kwargs):
+		"""
+			improved subplots function
+
+			figures can be saved automatically using :ref: order before generating them
+
+			changes figure size and dpi to easily such that figures can fit perfectly into LaTeX documents
+
+			many default display parameters changed incl tight layout by default, supply total figures without order,
+			turn toolbar off
+
+			:param ver: (int) number of vertical subplots (overriden if :ref: total is set)
+			:param hor: (int) number of horizontal subplots (overriden if :ref: total is set)
+			:param label: (str) label (name) for this image, used for title, for saving and for finding orders
+			:param figsize: (tuple of two ints) dimensions of the image
+			:param tight_layout: (bool) as usual, but default is True
+			:param show_toolbar: (bool) if changed to True, shows toolbar
+			:param total: (int/None) total number of figures, overrides hor/ver if set (will be N x N or N x N-1)
+			:param dpi: (int) dpi of the figure when displaying
+			:param save_dpi: (int) dpi of the figure when saving
+			:param kwargs: passed directly to :ref: matplotlib.subplots
+			:return: *contrary to original :ref: matplotlib.subplots*, this returns a list of *non-nested* axis objects
+		"""
 		''' create tiles if total set '''
 		if total is not None:
 			hor = ver = int(total ** 0.5)
@@ -160,14 +188,19 @@ class BaseMPL(object):
 		''' return '''
 		return (fig, axi) if axi is not None else fig
 
-	''' better figure function '''
 	def figure(self, *args, **kwargs):
+		"""
+			improved figure function; simply calls .subplots()
+		"""
 		return self.subplots(ver = 0, hor = 0, *args, **kwargs)[0]
 
-	''' better show function '''
-	''' you can pass callbacks to call after showing, to have sort of 'non-blocking' behaviour
-		use functools.partial if you want to supply any arguments '''
 	def show(self, callbacks = [], close_immediately = False, *args, **kwargs):
+		"""
+			improved show function
+
+			you can pass callbacks to call after showing, to have sort of 'non-blocking' behaviour
+			use functools.partial if you want to supply any arguments
+		"""
 		for fig in self.all_figures:
 			''' save the figure if it has been ordered '''
 			filenames = []
@@ -210,15 +243,19 @@ class BaseMPL(object):
 	def close(self, callbacks = [], *args, **kwargs):
 		self.show(callbacks = callbacks, close_immediately = True, *args, **kwargs)
 
-	''' tell MyMPL to save a figure if it occurs in the future '''
 	def order(self, label, filename = None, **kwargs):
+		"""
+			tell MyMPL to save a figure if it occurs in the future
+		"""
 		if filename is None:
 			filename = label
 		self.orders[label].append(MPLorder(label, filename, **kwargs))
 
-	''' close all figures '''
 	@classmethod
 	def close_all(cls, event):
+		"""
+			close all figures
+		"""
 		for fig in cls.instance().all_figures:
 			mpl_close(fig)
 		cls.instance().all_figures = []

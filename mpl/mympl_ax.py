@@ -1,7 +1,7 @@
 
-'''
+"""
     replacements for axis methods (labels, colours)
-'''
+"""
 
 from numpy import abs, real, imag
 
