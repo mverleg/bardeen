@@ -29,7 +29,7 @@ from itertools import cycle
 from re import compile
 from os.path import join
 from types import MethodType, StringTypes
-from collection import defaultdict
+from collections import defaultdict
 from bardeen.mpl.mympl_order import MPLorder
 from bardeen.mpl.mympl_ax import boynton_colors, color_cycle_scatter, small_pad_xlabel, small_pad_ylabel, plotim
 import matplotlib
