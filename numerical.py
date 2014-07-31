@@ -20,7 +20,8 @@ def laplacian(N, dtype = float64):
 
 		Used for numerical differentiation.
 
-		In many cases, :ref: scipy.ndimage.filters.laplace is faster (might be slightly different at boundaries).
+		In many cases, :ref: scipy.ndimage.filters.laplace, which calculates the derivative of a vector,
+		is faster (but might be slightly different at boundaries).
 
 		Note that this is not the graph theory laplacian matrix.
 	"""
