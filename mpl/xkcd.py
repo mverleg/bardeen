@@ -9,10 +9,10 @@ from bardeen.mpl.base import *
 '''
 	Singleton class that keeps track of figures
 '''
-class MyMPL(BaseMPL):
+class xkcdMPL(BaseMPL):
 
 	def __init__(self, save_all = False, extension = 'png', directory = '.'):
-		super(MyMPL, self).__init__(save_all = save_all, extension = extension, directory = directory)
+		super(xkcdMPL, self).__init__(save_all = save_all, extension = extension, directory = directory)
 		matplotlib.rcParams['text.usetex'] = False
 		matplotlib.pyplot.xkcd()
 
@@ -21,16 +21,16 @@ class MyMPL(BaseMPL):
 
 
 def figure(*args, **kwargs):
-	return MyMPL.instance().figure(*args, **kwargs)
+	return xkcdMPL.instance().figure(*args, **kwargs)
 
 def subplots(*args, **kwargs):
-	return MyMPL.instance().subplots(*args, **kwargs)
+	return xkcdMPL.instance().subplots(*args, **kwargs)
 
 def show(*args, **kwargs):
-	return MyMPL.instance().show(*args, **kwargs)
+	return xkcdMPL.instance().show(*args, **kwargs)
 
 def close(*args, **kwargs):
-	return MyMPL.instance().close(*args, **kwargs)
+	return xkcdMPL.instance().close(*args, **kwargs)
 
 def order(*args, **kwargs):
-	MyMPL.instance().order(*args, **kwargs)
+	xkcdMPL.instance().order(*args, **kwargs)

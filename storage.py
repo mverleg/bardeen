@@ -25,11 +25,11 @@ def store_array(arr, filename, header = ''):
 	savetxt(filename, arr, fmt = fmt, delimiter = '\t', newline = '\n', header = header)
 
 
-def load_array(filename, dtype = float64):
+def load_array(filename, dtype = float64, delimiter = '\t'):
 	"""
 		Load a tab-delimitered array, e.g. as stored by :ref: store_array
 	"""
-	return loadtxt(filename, dtype = dtype, delimiter = '\t')
+	return loadtxt(filename, dtype = dtype, delimiter = delimiter)
 
 
 def store_array_bin(arr, filename):
