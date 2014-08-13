@@ -6,7 +6,8 @@
 from collections import defaultdict
 from os.path import splitext
 from sys import argv, stderr
-from bardeen.mpl.xkcd import xkcdMPL as MPL
+from bardeen.mpl import MPL
+MPL.xkcd()
 
 
 def order_imgs(filenames, img_map, mpl = None, properties = {}):

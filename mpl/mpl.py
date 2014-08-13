@@ -24,17 +24,14 @@
 """
 
 from itertools import cycle
-from re import compile
+from re import search
 from os.path import join
+import matplotlib
 from types import MethodType, StringTypes
 from collections import defaultdict
-from bardeen.mpl.mympl_order import MPLorder
-from bardeen.mpl.mympl_ax import boynton_colors, color_cycle_scatter, small_pad_xlabel, small_pad_ylabel, plotim
-import matplotlib
-from matplotlib.pyplot import subplots as mpl_subplots
-from matplotlib.pyplot import figure as mpl_figure
-from matplotlib.pyplot import show as mpl_show
-from matplotlib.pyplot import close as mpl_close
+from bardeen.mpl.mpl_order import MPLorder
+from bardeen.mpl.mpl_ax import boynton_colors, color_cycle_scatter, small_pad_xlabel, small_pad_ylabel, plotim
+from matplotlib.pyplot import subplots as mpl_subplots, figure as mpl_figure, show as mpl_show, close as mpl_close
 from numpy import array, concatenate, ndarray
 
 
@@ -252,7 +249,7 @@ class MPL(object):
 			if len(self.orders[fig.label]):
 				''' has this figure been ordered? '''
 				for order in self.orders[fig.label]:
-					if compile('^(.*[^\./])\.\w+$').match(order.filename):
+					if search('^(.*[^\./])\.\w+$', order.filename):
 						''' already has an extension '''
 						filenames.append(order.filename)
 					else:

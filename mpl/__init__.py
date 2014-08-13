@@ -20,9 +20,10 @@
 	Please note that:
 
 	* some function signatures are changed for this version.
-#	* the xkcd version of matplotlib is available by creating the mpl class from the .xkcd module.
-#
-#	>>> from mpl.xkcd import subplots, show
+	* the xkcd version of matplotlib is available by creating the mpl class from the .xkcd module.
+
+	>>> from mpl import MPL, subplots, show
+	>>> mpl = MPL.xkcd()
 """
 
 #todo: import mpl.xkcd gives an xkcd instance
@@ -30,7 +31,7 @@
 from mpl import MPL
 
 
-__all__ = ['MyMPL', 'figure', 'subplots', 'show', 'close', 'order']
+__all__ = ['MPL', 'figure', 'subplots', 'show', 'close', 'order']
 
 
 def figure(*args, **kwargs):
