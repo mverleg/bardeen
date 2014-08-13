@@ -20,29 +20,34 @@
 	Please note that:
 
 	* some function signatures are changed for this version.
-	* the xkcd version of matplotlib is available by creating the mpl class from the .xkcd module.
-
-	>>> from mpl.xkcd import subplots, show
+#	* the xkcd version of matplotlib is available by creating the mpl class from the .xkcd module.
+#
+#	>>> from mpl.xkcd import subplots, show
 """
 
-from mympl import MyMPL
+#todo: import mpl.xkcd gives an xkcd instance
+
+from mpl import MPL
+
 
 __all__ = ['MyMPL', 'figure', 'subplots', 'show', 'close', 'order']
 
 
 def figure(*args, **kwargs):
-	return MyMPL.instance().figure(*args, **kwargs)
+	return MPL.instance().figure(*args, **kwargs)
+
 
 def subplots(*args, **kwargs):
-	return MyMPL.instance().subplots(*args, **kwargs)
+	return MPL.instance().subplots(*args, **kwargs)
+
 
 def show(*args, **kwargs):
-	return MyMPL.instance().show(*args, **kwargs)
+	return MPL.instance().show(*args, **kwargs)
+
 
 def close(*args, **kwargs):
-	return MyMPL.instance().close(*args, **kwargs)
+	return MPL.instance().close(*args, **kwargs)
+
 
 def order(*args, **kwargs):
-	MyMPL.instance().order(*args, **kwargs)
-
-
+	MPL.instance().order(*args, **kwargs)

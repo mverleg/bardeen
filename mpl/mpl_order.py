@@ -24,12 +24,11 @@ class MPLorder(object):
 		for kwkey, kwvalue in kwargs.items():
 			setattr(self, kwkey, kwvalue)
 
-	def font_properties(self):
-		return {
-			'family': self.font_name,
-			'size':   self.font_size,
-			'weight': self.font_weight,
-			'style':  self.font_style,
-		}
+	font_properties = {
+		'family': font_name,
+		'size':   font_size,
+		'weight': font_weight,
+		'style':  font_style,
+	}
 
 
