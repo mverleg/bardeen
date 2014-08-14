@@ -2,10 +2,13 @@
 My matplotlib
 ==================================
 
-.. automodule:: mpl.base
-.. autoclass:: mpl.base.BaseMPL
+.. automodule:: mpl.mpl
+.. autoclass:: mpl.mpl.MPL
    :members: figure, subplots, show, order, close
 
-.. autoclass:: mpl.MyMPL
+.. autoclass:: mpl.MPL
+
+.. automodule:: mpl.save
+   :members:
 
 

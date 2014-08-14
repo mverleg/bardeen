@@ -65,9 +65,9 @@ class MPL(object):
 			self.default_extension = extension
 
 		''' pgf backend settings '''
-		matplotlib.rcParams['text.latex.unicode'] = True
-		#matplotlib.rcParams['text.usetex'] = True
-		matplotlib.rcParams['pgf.texsystem'] = 'pdflatex'
+		#matplotlib.rcParams['text.latex.unicode'] = True
+		matplotlib.rcParams['text.usetex'] = False
+		matplotlib.rcParams['pgf.texsystem'] = 'lualatex'
 
 		''' register single instance '''
 		try:
@@ -108,6 +108,7 @@ class MPL(object):
 		}
 		cls(save_all = save_all, extension = extension, directory = directory)
 		matplotlib.rcParams['text.usetex'] = True
+		matplotlib.rcParams['text.latex.unicode'] = True
 
 	@classmethod
 	def instance(cls, *args, **kwargs):
@@ -283,6 +284,9 @@ class MPL(object):
 		mpl_show()
 
 	def close(self, callbacks = [], *args, **kwargs):
+		"""
+			Cclose all figures. E.g. for use when saving figures without viewing.
+		"""
 		self.show(callbacks = callbacks, close_immediately = True, *args, **kwargs)
 
 	def order(self, label, filename = None, **kwargs):
