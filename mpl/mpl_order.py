@@ -1,7 +1,9 @@
 
-'''
+"""
 	Order for a MPL figure
-'''
+"""
+
+from copy import copy
 
 
 class MPLorder(object):
@@ -14,7 +16,7 @@ class MPLorder(object):
 	font_name = 'crm10'
 	font_size = 10.0    # pt
 	font_weight = 'normal'
-	font_style =  'italic'
+	font_style = 'italic'
 
 	''' the kwargs should be a subset of the properties defined above '''
 	def __init__(self, label, filename, **kwargs):
@@ -23,12 +25,11 @@ class MPLorder(object):
 		self.figure = None
 		for kwkey, kwvalue in kwargs.items():
 			setattr(self, kwkey, kwvalue)
-
-	font_properties = {
-		'family': font_name,
-		'size':   font_size,
-		'weight': font_weight,
-		'style':  font_style,
-	}
+		self.font_properties = {
+			'family': self.font_name,
+			'size': self.font_size,
+			'weight': self.font_weight,
+			'style': self.font_style,
+		}
 
 

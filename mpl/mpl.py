@@ -33,6 +33,7 @@ from bardeen.mpl.mpl_order import MPLorder
 from bardeen.mpl.mpl_ax import boynton_colors, color_cycle_scatter, small_pad_xlabel, small_pad_ylabel, plotim
 from matplotlib.pyplot import subplots as mpl_subplots, figure as mpl_figure, show as mpl_show, close as mpl_close
 from numpy import array, concatenate, ndarray
+from copy import copy
 
 
 class MPL(object):
@@ -47,7 +48,7 @@ class MPL(object):
 	''' max_width, overriden by order if there is one '''
 	max_width = 6.17
 
-	def __init__(self, save_all = False, extension = 'png', directory = '.'):
+	def __init__(self, save_all = False, extension = 'png', directory = '.', font_properties = {}):
 		"""
 			Initialize the mpl class with some settings for saving figures.
 
@@ -83,7 +84,10 @@ class MPL(object):
 		self.orders = defaultdict(list)
 
 		""" no special font properties """
-		self.__class__.default_font_properties = {}
+		if not getattr(self.__class__, 'default_font_properties', False):
+			self.__class__.default_font_properties = {}
+		self.font_properties = copy(self.default_font_properties)
+		self.font_properties.update(font_properties)
 
 	@classmethod
 	def xkcd(cls, save_all = False, extension = 'png', directory = '.'):
@@ -155,11 +159,12 @@ class MPL(object):
 		if label is None:
 			label = 'fig_%d' % len(self.all_figures)
 		max_width = self.max_width
-		font_properties = self.default_font_properties
+		font_properties = copy(self.font_properties)
 		if label in self.orders.keys():
 			for order in self.orders[label]:
 				''' change font properties everywhere '''
-				font_properties = order.font_properties
+				font_properties.update(order.font_properties)
+				print 'font_properties:', font_properties
 				max_width = order.max_width
 				''' change dpi '''
 				save_dpi = order.dpi
@@ -285,17 +290,17 @@ class MPL(object):
 
 	def close(self, callbacks = [], *args, **kwargs):
 		"""
-			Cclose all figures. E.g. for use when saving figures without viewing.
+			Close all figures. E.g. for use when saving figures without viewing.
 		"""
 		self.show(callbacks = callbacks, close_immediately = True, *args, **kwargs)
 
-	def order(self, label, filename = None, **kwargs):
+	def order(self, label, filename = None, **properties):
 		"""
 			Tell MPL to save a figure if it occurs in the future.
 		"""
 		if filename is None:
 			filename = label
-		self.orders[label].append(MPLorder(label, filename, **kwargs))
+		self.orders[label].append(MPLorder(label, filename, **properties))
 
 	@classmethod
 	def close_all(cls, event):
