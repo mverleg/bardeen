@@ -192,7 +192,6 @@ def change_file(filepath, change = False, to_tabs = None, to_double = None, star
 	"""
 	with open(filepath, 'r') as fh:
 		code = fh.read()
-		print '\nBEFORE: %s' % filepath
 		_print_code(code)
 	code = change_settings(code, to_tabs = to_tabs, to_double = to_double, start_empty = start_empty,
 		end_empty = end_empty, arg_space = arg_space)
@@ -200,7 +199,6 @@ def change_file(filepath, change = False, to_tabs = None, to_double = None, star
 		with open(filepath, 'w') as fh:
 			fh.write(code)
 	else:
-		print '\nPATH: %s' % filepath
 		_print_code(code)
 
 
