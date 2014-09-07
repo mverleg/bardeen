@@ -29,9 +29,10 @@
 #todo: import mpl.xkcd gives an xkcd instance
 
 from mpl import MPL
+from save import order_imgs, from_argv
 
 
-__all__ = ['MPL', 'figure', 'subplots', 'show', 'close', 'order']
+__all__ = ['MPL', 'figure', 'subplots', 'show', 'close', 'order', 'order_imgs', 'from_argv']
 
 
 def figure(*args, **kwargs):

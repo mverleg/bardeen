@@ -27,10 +27,11 @@ from itertools import cycle
 from re import search
 from os.path import join
 import matplotlib
+#matplotlib.use('Qt4Agg')
 from types import MethodType, StringTypes
 from collections import defaultdict
-from bardeen.mpl.mpl_order import MPLorder
-from bardeen.mpl.mpl_ax import boynton_colors, color_cycle_scatter, small_pad_xlabel, small_pad_ylabel, plotim
+from bardeen.mpl.order import MPLorder
+from bardeen.mpl.ax import boynton_colors, color_cycle_scatter, small_pad_xlabel, small_pad_ylabel, plotim
 from matplotlib.pyplot import subplots as mpl_subplots, figure as mpl_figure, show as mpl_show, close as mpl_close
 from numpy import array, concatenate, ndarray
 from copy import copy
@@ -94,10 +95,12 @@ class MPL(object):
 		"""
 			alternative constructor with xkcd display settings
 		"""
-		cls.default_font_properties = {}
-		cls(save_all = save_all, extension = extension, directory = directory)
+		cls.default_font_properties = {'family': 'Humor Sans'}
+		matplotlib.rc('font', family='Humor Sans')
+		instance = cls(save_all = save_all, extension = extension, directory = directory)
 		matplotlib.rcParams['text.usetex'] = False
 		matplotlib.pyplot.xkcd()
+		return instance
 
 	@classmethod
 	def tex(cls, save_all = False, extension = 'png', directory = '.'):
@@ -164,7 +167,6 @@ class MPL(object):
 			for order in self.orders[label]:
 				''' change font properties everywhere '''
 				font_properties.update(order.font_properties)
-				print 'font_properties:', font_properties
 				max_width = order.max_width
 				''' change dpi '''
 				save_dpi = order.dpi
@@ -242,7 +244,7 @@ class MPL(object):
 		"""
 		return self.subplots(ver = 0, hor = 0, *args, **kwargs)[0]
 
-	def show(self, callbacks = [], close_immediately = False, *args, **kwargs):
+	def show(self, callbacks = [], close_instead = False, *args, **kwargs):
 		"""
 			Improved show function.
 
@@ -268,17 +270,18 @@ class MPL(object):
 				filenames.extend('%s.%s' % (fig.label, extension) for extension in self.default_extension)
 			if filenames:
 				print 'saving \'%s\' as %s' % (fig.label, ', '.join('\'%s\'' % filename for filename in filenames))
-			for filename in filenames:
-				filename = join(self.directory, filename)
-				fig.savefig(filename, dpi = fig.save_dpi)
+				for filename in filenames:
+					filename = join(self.directory, filename)
+					fig.savefig(filename, dpi = fig.save_dpi)
 		for fig in self.all_figures:
 			''' attach the on-close handles to close all other figures too '''
 			fig.canvas.mpl_connect('close_event', self.close_all)
 			''' close immediately if close is requested '''
-			if close_immediately:
-				fig.canvas.mpl_connect('draw_event', self.close_all)
-			''' show the figure '''
-			fig.show(*args, **kwargs)
+			if close_instead:
+				mpl_close(fig)
+			else:
+				''' show the figure '''
+				fig.show(*args, **kwargs)
 		''' any unsaved figures? '''
 		remaining_orders = sum(self.orders.values(), [])
 		if len(remaining_orders):
@@ -292,7 +295,7 @@ class MPL(object):
 		"""
 			Close all figures. E.g. for use when saving figures without viewing.
 		"""
-		self.show(callbacks = callbacks, close_immediately = True, *args, **kwargs)
+		self.show(callbacks = callbacks, close_instead = True, *args, **kwargs)
 
 	def order(self, label, filename = None, **properties):
 		"""
