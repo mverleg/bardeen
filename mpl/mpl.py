@@ -289,7 +289,7 @@ class MPL(object):
 			for order in remaining_orders:
 				print '\'%s\' (\'%s\')' % (order.label, order.filename)
 		''' show all figures to prevent error '''
-		mpl_show()
+		mpl_show(*args, **kwargs)
 
 	def close(self, callbacks = [], *args, **kwargs):
 		"""
