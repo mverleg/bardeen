@@ -21,6 +21,7 @@
 
 	* some function signatures are changed for this version.
 	* to use the xkcd version of matplotlib, create mpl as MPL.xkcd() the first time (e.g. collection script)
+	* when setting a font, even if fc-list can see it, if xlsfonts can not see it, it doesn't work
 """
 
 from itertools import cycle
@@ -108,14 +109,15 @@ class MPL(object):
 			alternative constructor with latex display settings
 		"""
 		cls.default_font_properties = {
-			'family': 'cmr10',
+			'family': 'lmroman10',
 			'size': 10.0,
 			'weight': 'normal',
 			'style': 'normal',
 		}
-		cls(save_all = save_all, extension = extension, directory = directory)
+		instance = cls(save_all = save_all, extension = extension, directory = directory)
 		matplotlib.rcParams['text.usetex'] = True
 		matplotlib.rcParams['text.latex.unicode'] = True
+		return instance
 
 	@classmethod
 	def instance(cls, *args, **kwargs):
@@ -127,6 +129,13 @@ class MPL(object):
 		except AttributeError:
 			cls.single_instance = cls(*args, **kwargs)
 		return cls.single_instance
+
+	@classmethod
+	def has_instance(cls):
+		"""
+			Check if there is an instance
+		"""
+		return getattr(cls, 'single_instance', None)
 
 	def subplots(self, ver = 1, hor = 1, label = None, figsize = (None, None), tight_layout = True, show_toolbar = False, total = None, dpi = 120, save_dpi = 300, **kwargs):
 		"""

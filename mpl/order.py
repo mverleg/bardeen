@@ -3,8 +3,6 @@
 	Order for a MPL figure
 """
 
-from copy import copy
-
 
 class MPLorder(object):
 	"""
@@ -13,13 +11,14 @@ class MPLorder(object):
 
 	max_width = 6.17    # inch
 	dpi = 400
-	font_name = 'crm10'
+	font_name = 'lmroman10'
 	font_size = 10.0    # pt
 	font_weight = 'normal'
 	font_style = 'italic'
 
 	''' the kwargs should be a subset of the properties defined above '''
 	def __init__(self, label, filename, **kwargs):
+		assert not 'properties' in kwargs, 'properties should be provided as keyword arguments, not a dictionary'
 		self.label = label
 		self.filename = filename
 		self.figure = None
