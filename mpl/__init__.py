@@ -30,10 +30,10 @@
 
 from mpl import MPL
 from save import order_imgs, from_argv
-from misc import qplot, plotshow
+from misc import qplot, splot
 
 
-__all__ = ['MPL', 'figure', 'subplots', 'show', 'close', 'order', 'order_imgs', 'from_argv', 'qplot', 'plotshow',]
+__all__ = ['MPL', 'figure', 'subplots', 'show', 'close', 'order', 'order_imgs', 'from_argv', 'qplot', 'splot',]
 
 
 def figure(*args, **kwargs):
@@ -54,3 +54,5 @@ def close(*args, **kwargs):
 
 def order(*args, **kwargs):
 	MPL.instance().order(*args, **kwargs)
+
+

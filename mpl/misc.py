@@ -21,13 +21,12 @@ def qplot(X = None, *Ys):
 	if X is None:
 		X = array(range(len(Ys[0])))
 	fig, ax = MPL.instance().subplots()
-	print len(Ys)
 	for k, Y in enumerate(Ys):
 		ax.plot(X, Y, label = '#%d' % k)
 	ax.legend(loc = 'lower right')
 
 
-def plotshow(X = None, *Ys):
+def splot(X = None, *Ys):
 	"""
 		Make a simple plot without options, just for testing, and show it immediately in the background
 		(without blocking the program flow, but not closing when program exits).
@@ -39,9 +38,8 @@ def plotshow(X = None, *Ys):
 	"""
 	procnr = fork()
 	if procnr == 0:
-		qplot(X = X, Ys = Ys)
+		qplot(X, *Ys)
 		MPL.instance().show()
 		exit()
-
 
 
