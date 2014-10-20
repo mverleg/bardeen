@@ -97,7 +97,7 @@ class MPL(object):
 			alternative constructor with xkcd display settings
 		"""
 		cls.default_font_properties = {'family': 'Humor Sans'}
-		matplotlib.rc('font', family='Humor Sans')
+		matplotlib.rc('font', family = 'Humor Sans')
 		instance = cls(save_all = save_all, extension = extension, directory = directory)
 		matplotlib.rcParams['text.usetex'] = False
 		matplotlib.pyplot.xkcd()
@@ -109,7 +109,7 @@ class MPL(object):
 			alternative constructor with latex display settings
 		"""
 		cls.default_font_properties = {
-			'family': 'lmroman10',
+			'family': 'serif',
 			'size': 10.0,
 			'weight': 'normal',
 			'style': 'normal',

@@ -11,7 +11,7 @@ class MPLorder(object):
 
 	max_width = 6.17    # inch
 	dpi = 400
-	font_name = 'lmroman10'
+	font_name = 'serif'
 	font_size = 10.0    # pt
 	font_weight = 'normal'
 	font_style = 'italic'
