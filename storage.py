@@ -6,6 +6,8 @@
 from numpy import save, load, savetxt, loadtxt, float64
 from json import dumps, loads
 import gzip
+from os.path import dirname
+from bardeen.system import mkdirp
 
 
 """
@@ -17,7 +19,11 @@ def store_array(arr, filename, header = ''):
 	"""
 		Store a numpy array in a format readable by many programs
 		(whitespace delimitered plain text with # header)
+
+		:param arr: numpy array
+		:param filename: (string) path to store the file; directory is created if it does not exist
 	"""
+	mkdirp(dirname(filename))
 	if 'int' in unicode(arr.dtype):
 		fmt = '%18d'
 	else:
@@ -36,9 +42,13 @@ def store_array_bin(arr, filename):
 	"""
 		Store as binary, single-array numpy file
 
+		:param arr: numpy array
+		:param filename: (string) path to store the file; directory is created if it does not exist
+
 		extension .npy is strongly recommended
 	"""
 	#todo: maybe gzip later
+	mkdirp(dirname(filename))
 	save(filename, arr)
 
 
@@ -60,13 +70,14 @@ def store_conf(dicti, filename, header = None):
 		as a easily readable config file.
 
 		:param dicti: (dict) dictionary to store; keys (config options) are not allowed to contain whitespace
-		:param filename: (string) path to store the file
+		:param filename: (string) path to store the file; directory is created if it does not exist
 		:param header: (string/None) if string, added at the beginning of the file
 
 		* ``None`` is allowed for values but not keys
 		* Note that floats will be slightly different when loaded
 		* Note that string '0123' will be loaded as integer 123
 	"""
+	mkdirp(dirname(filename))
 	with open(filename, 'w+') as fh:
 		for line in header.splitlines():
 			fh.write('# %s\n' % line)
@@ -129,12 +140,13 @@ def store_dict(dicti, filename, compressed = False):
 		Store a dictionary as json.
 
 		:param dicti: (dict) dictionary to store
-		:param filename: (string) path to store the file; .gz is appended if compressed
+		:param filename: (string) path to store the file; .gz is appended if compressed; directory is created if it does not exist
 		:param compressed: if True, the file is gzipped and .gz is appended to the filename
 
 		* Contrary to :ref: store_conf, whitespace in keys is allowed
 		* See notes at :ref: store_conf
 	"""
+	mkdirp(dirname(filename))
 	# todo: questionable whether the appending of .gz is a good idea; expect `filename` to be the actual filename
 	""" http://stackoverflow.com/questions/1447287/format-floats-with-standard-json-module """
 	if compressed:
