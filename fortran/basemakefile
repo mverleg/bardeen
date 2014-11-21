@@ -1,0 +1,61 @@
+
+# try these targets:
+#  (empty): compile with debug information & show make vars (slow program)
+#  opt: no exec. debug info & uses maximum optimization (slow compilation)
+
+# note for dynamic, interdependent project:
+#  makedepf03 - http://personal.inet.fi/private/erikedelmann/makedepf03/manpage.html
+
+# for different fortran version:
+#  sed -i 's/03/90/g' makefile
+
+COMPILER := gfortran --free-form
+LIB_FLAGS := -lblas -llapack
+COMP_DEBUG_FLAGS := -Wall -Wextra -pedantic
+EXEC_DEBUG_FLAGS := -fbacktrace -fbounds-check -ffpe-trap=zero,overflow -fmax-errors=1
+OPTIMIZE_FLAGS := 
+
+TARGET := $(basename $(shell grep 'program' -m 1 -l *.f03 | head -n 1))
+FORTRAN_FILES := $(filter-out $(TARGET).f03, $(wildcard *.f03))
+OBJECT_FILES := $(addprefix obj/, $(FORTRAN_FILES:.f03=.o))
+PREPROCED_FILES := $(addprefix fort/, $(FORTRAN_FILES:.f03=.F03)) fort/$(TARGET).F03
+
+all: $(TARGET).run
+
+opt: EXEC_DEBUG_FLAGS = 
+opt: OPTIMIZE_FLAGS += -O3
+opt: all
+
+prep:
+	mkdir -p mod obj fort
+
+$(TARGET).run: prep $(OBJECT_FILES) fort/$(TARGET).F03
+	/bin/rm -f $(TARGET).run
+	$(COMPILER) -Jmod $(COMP_DEBUG_FLAGS) $(EXEC_DEBUG_FLAGS) $(OPTIMIZE_FLAGS) fort/$(TARGET).F03 $(OBJECT_FILES) $(LIB_FLAGS) -o $(TARGET).run
+	@echo "GREAT SUCCESS!"
+
+$(OBJECT_FILES): obj/%.o: fort/%.F03
+	$(COMPILER) -Jmod $(COMP_DEBUG_FLAGS) $(EXEC_DEBUG_FLAGS) $(OPTIMIZE_FLAGS) "$?" $(LIB_FLAGS) -c -o obj/$(notdir $(basename $<)).o
+
+$(PREPROCED_FILES): fort/%.F03: %.f03
+	expand --tabs=2 "$^" > "$@"
+
+info:
+	@echo "makefile variables:"
+	@echo " COMPILER:         $(COMPILER)"
+	@echo " LIB_FLAGS:        $(LIB_FLAGS)"
+	@echo " COMP_DEBUG_FLAGS: $(COMP_DEBUG_FLAGS)"
+	@echo " EXEC_DEBUG_FLAGS: $(EXEC_DEBUG_FLAGS)"
+	@echo " OPTIMIZE_FLAGS:   $(OPTIMIZE_FLAGS)"
+	@echo " TARGET:           $(TARGET)"
+	@echo " FORTRAN_FILES:    $(FORTRAN_FILES)"
+	@echo " OBJECT_FILES:     $(OBJECT_FILES)"
+	@echo " PREPROCED_FILES:  $(PREPROCED_FILES)"
+
+clean:
+	/bin/rm -f *.o *.mod */*.o */*.mod *.F03 */*.F03
+
+rm: clean
+	/bin/rm -r -f *.run mod/ obj/ fort/
+
+
