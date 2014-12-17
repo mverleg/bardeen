@@ -17,8 +17,8 @@ OPTIMIZE_FLAGS :=
 
 TARGET := $(basename $(shell grep 'program' -m 1 -l *.f03 | head -n 1))
 FORTRAN_FILES := $(filter-out $(TARGET).f03, $(wildcard *.f03))
-OBJECT_FILES := $(addprefix obj/, $(FORTRAN_FILES:.f03=.o))
-PREPROCED_FILES := $(addprefix fort/, $(FORTRAN_FILES:.f03=.F03)) fort/$(TARGET).F03
+OBJECT_FILES := $(addprefix obj~/, $(FORTRAN_FILES:.f03=.o))
+PREPROCED_FILES := $(addprefix fort~/, $(FORTRAN_FILES:.f03=.F03)) fort~/$(TARGET).F03
 
 all: $(TARGET).run
 
@@ -27,17 +27,17 @@ opt: OPTIMIZE_FLAGS += -O3
 opt: all
 
 prep:
-	mkdir -p mod obj fort
+	mkdir -p mod~ obj~ fort~
 
-$(TARGET).run: prep $(OBJECT_FILES) fort/$(TARGET).F03
+$(TARGET).run: prep $(OBJECT_FILES) fort~/$(TARGET).F03
 	/bin/rm -f $(TARGET).run
-	$(COMPILER) -Jmod $(COMP_DEBUG_FLAGS) $(EXEC_DEBUG_FLAGS) $(OPTIMIZE_FLAGS) fort/$(TARGET).F03 $(OBJECT_FILES) $(LIB_FLAGS) -o $(TARGET).run
+	$(COMPILER) -Jmod~ $(COMP_DEBUG_FLAGS) $(EXEC_DEBUG_FLAGS) $(OPTIMIZE_FLAGS) fort~/$(TARGET).F03 $(OBJECT_FILES) $(LIB_FLAGS) -o $(TARGET).run
 	@echo "GREAT SUCCESS!"
 
-$(OBJECT_FILES): obj/%.o: fort/%.F03
-	$(COMPILER) -Jmod $(COMP_DEBUG_FLAGS) $(EXEC_DEBUG_FLAGS) $(OPTIMIZE_FLAGS) "$?" $(LIB_FLAGS) -c -o obj/$(notdir $(basename $<)).o
+$(OBJECT_FILES): obj~/%.o: fort~/%.F03
+	$(COMPILER) -Jmod~ $(COMP_DEBUG_FLAGS) $(EXEC_DEBUG_FLAGS) $(OPTIMIZE_FLAGS) "$?" $(LIB_FLAGS) -c -o obj~/$(notdir $(basename $<)).o
 
-$(PREPROCED_FILES): fort/%.F03: %.f03
+$(PREPROCED_FILES): fort~/%.F03: %.f03
 	expand --tabs=2 "$^" > "$@"
 
 info:
@@ -56,6 +56,6 @@ clean:
 	/bin/rm -f *.o *.mod */*.o */*.mod *.F03 */*.F03
 
 rm: clean
-	/bin/rm -r -f *.run mod/ obj/ fort/
+	/bin/rm -r -f *.run mod~/ obj~/ fort~/
 
 
