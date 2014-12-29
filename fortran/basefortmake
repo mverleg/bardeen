@@ -22,16 +22,19 @@ PREPROCED_FILES := $(addprefix fort~/, $(FORTRAN_FILES:.f03=.F03)) fort~/$(TARGE
 
 all: $(TARGET).run
 
+# -0fast assumes 
 opt: EXEC_DEBUG_FLAGS = 
-opt: OPTIMIZE_FLAGS += -O3
+opt: OPTIMIZE_FLAGS += -O3 -march=native
+opt: OBJECT_FILES = $(addprefix opt~/, $(FORTRAN_FILES:.f03=.o))
 opt: all
 
 prep:
-	mkdir -p mod~ obj~ fort~
+	mkdir -p mod~ obj~ fort~ opt~
 
 $(TARGET).run: prep $(OBJECT_FILES) fort~/$(TARGET).F03
 	/bin/rm -f $(TARGET).run
-	$(COMPILER) -Jmod~ $(COMP_DEBUG_FLAGS) $(EXEC_DEBUG_FLAGS) $(OPTIMIZE_FLAGS) fort~/$(TARGET).F03 $(OBJECT_FILES) $(LIB_FLAGS) -o $(TARGET).run
+	$(COMPILER) -Jmod~ $(COMP_DEBUG_FLAGS) $(EXEC_DEBUG_FLAGS) $(OPTIMIZE_FLAGS) fort~/$(TARGET).F03 $(OBJECT_FILES) $(LIB_FLAGS) -o obj~/$(TARGET).run
+	ln -s obj~/$(TARGET).run $(TARGET).run
 	@echo "GREAT SUCCESS!"
 
 $(OBJECT_FILES): obj~/%.o: fort~/%.F03

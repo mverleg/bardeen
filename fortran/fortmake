@@ -1,5 +1,5 @@
 
-include fortran/basemakefile
+include basefortmake
 
 COMPILER := gfortran --free-form
 LIB_FLAGS := -lblas -llapack
