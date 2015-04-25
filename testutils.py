@@ -51,8 +51,4 @@ def dict_round_floats(dicti, decim = 6):
 		if isinstance(value, float):
 			dicti[key] = round(value, decim)
 
-"""
-	NOTE: if you add something, write a test!
-"""
-
 
