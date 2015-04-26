@@ -4,6 +4,10 @@
 """
 
 from numpy import prod
+from sys import stderr
+
+
+stderr.write('These grid functions are deprecated since numpy offers the same functionality using unravel_index and ravel_multi_index.')
 
 
 def to_coordinate(index, dims):
