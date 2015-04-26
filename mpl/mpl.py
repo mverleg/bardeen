@@ -25,6 +25,7 @@
 """
 
 from itertools import cycle
+from sys import stderr
 from re import search
 from os.path import join
 import matplotlib
@@ -281,7 +282,14 @@ class MPL(object):
 				print 'saving \'%s\' as %s' % (fig.label, ', '.join('\'%s\'' % filename for filename in filenames))
 				for filename in filenames:
 					filename = join(self.directory, filename)
-					fig.savefig(filename, dpi = fig.save_dpi)
+					try:
+						fig.savefig(filename, dpi = fig.save_dpi)
+					except ValueError, err:
+						if 'attempt to index field \'shared\' (a nil value)' in str(err):
+							stderr.write('There was a LaTeX error that usually means that the font was not found.\n')
+							exit(1)
+						else:
+							raise
 		for fig in self.all_figures:
 			''' attach the on-close handles to close all other figures too '''
 			fig.canvas.mpl_connect('close_event', self.close_all)
