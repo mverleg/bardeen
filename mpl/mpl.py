@@ -110,7 +110,7 @@ class MPL(object):
 			alternative constructor with latex display settings
 		"""
 		cls.default_font_properties = {
-			'family': 'serif',
+			'family': 'cmr10',
 			'size': 10.0,
 			'weight': 'normal',
 			'style': 'normal',

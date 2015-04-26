@@ -65,3 +65,20 @@ def plotim(ax, *args, **kwargs):
 	return plots
 
 
+def field():
+	"""
+		Plot a 2D matrix as a grayscale intensity map, optionally with gradient vectors
+	"""
+	#todo: implement
+	#todo: check if name unique
+	#todo: normal x- and y-axis for imshow
+	#todo: default black-and-white colormap
+	#todo: numpy.gradient has unexpected directions compared to pyplot.quiver
+	#todo: gradient vectors should be toggleable
+	#todo: pass-on arguments, including interpolation
+	#todo: intensity map optional (just quiver)
+	#todo: be able to reduce number of arrows (skip or interpolate)
+	#todo: add this to MPL axes objects
+	pass
+
+
