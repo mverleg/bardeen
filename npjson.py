@@ -33,10 +33,6 @@ def json_numpy_obj_hook(dct):
 	return dct
 
 
-npdump = partial(dump, cls = NumpyEncoder)
-mpload = partial(load, object_hook = json_numpy_obj_hook)
-
-
 if __name__ == '__main__':
 	#todo: write unit tests
 	z = {'data': [zeros((5, 3)), zeros(4, 2)]}
