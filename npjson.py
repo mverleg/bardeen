@@ -26,8 +26,6 @@ def json_numpy_obj_hook(dct):
 	return dct
 
 
-<<<<<<< HEAD
-=======
 def npdump(obj, filepath, compresslevel = 5, **jsonkwargs):
 	with open(filepath, 'w+') as fh:
 		with GzipFile(fileobj = fh, mode = 'w+', compresslevel = compresslevel) as zh:
@@ -41,7 +39,6 @@ def npload(filepath, **jsonkwargs):
 	return obj
 
 
->>>>>>> 72e2e8a6595f3970cf336556666710a4d0ec7fe4
 if __name__ == '__main__':
 	#todo: write unit tests
 	z = {'data': [zeros((5, 3)), zeros(4, 2)]}
@@ -49,5 +46,6 @@ if __name__ == '__main__':
 		npdump(z, fh)
 	with open('/tmp/trial.json', 'r') as fh:
 		z = npload(fh)
+
 
 
