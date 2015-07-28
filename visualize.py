@@ -41,9 +41,6 @@ def confusion_probs(predictions, labels, ax = None, vmargin = 0.1, equalize = Fa
 		z = linspace(0, D, N)
 	""" Plot the results with class-coding. """
 	for q in range(D):
-		print (y / float(D))
-		print '*****'
-		print cmap(y / float(D))
 		colors = cmap(y / float(D))
 		ax.scatter(z, X[:, q], c = colors, edgecolors = 'none')
 	return (fig, ax) if fig else ax
@@ -57,7 +54,7 @@ if __name__ == '__main__':
 	labels = hstack((random_integers(0, 5, size = (5000,)), random_integers(2, 3, size = (2500,)), [5] * 2500))
 	predictions[range(10000), labels] *= 100
 	predictions /= predictions.sum(1, keepdims = True)
-	confusion_scatter(predictions, labels, equalize = True)
+	confusion_probs(predictions, labels, equalize = True)
 	show()
 
 
