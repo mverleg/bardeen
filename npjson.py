@@ -1,4 +1,8 @@
 
+"""
+	Saving and loading of json data that includes numpy ndarrays.
+"""
+
 from gzip import GzipFile
 from numpy import ndarray, zeros, asarray
 from json import dump, load, JSONEncoder
