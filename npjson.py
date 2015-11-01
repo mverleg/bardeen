@@ -6,7 +6,12 @@
 from collections import OrderedDict
 from gzip import GzipFile
 from numpy import ndarray, zeros, asarray
-from json import dump, load, JSONEncoder
+try:
+	from commentjson import dump, load, JSONEncoder
+	JSON_COMMENTS = True
+except ImportError:
+	from json import dump, load, JSONEncoder
+	JSON_COMMENTS = False
 
 
 class NumpyEncoder(JSONEncoder):
@@ -43,7 +48,12 @@ def npdump(obj, filepath, compresslevel = 5, **jsonkwargs):
 def npload(filepath, **jsonkwargs):
 	with open(filepath, 'r') as fh:
 		with GzipFile(fileobj = fh, mode = 'r') as zh:
-			obj = load(fp = zh, object_pairs_hook = OrderedDict, object_hook = json_numpy_obj_hook, **jsonkwargs)
+			try:
+				obj = load(fp = zh, object_pairs_hook = OrderedDict, object_hook = json_numpy_obj_hook, **jsonkwargs)
+			except Exception as err:
+				if not JSON_COMMENTS:
+					err.args = err.args + ('note that "commentjson" could not be loaded',)
+				raise
 	return obj
 
 
