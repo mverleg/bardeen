@@ -3,6 +3,7 @@
 	Saving and loading of json data that includes numpy ndarrays.
 """
 
+from collections import OrderedDict
 from gzip import GzipFile
 from numpy import ndarray, zeros, asarray
 from json import dump, load, JSONEncoder
@@ -22,6 +23,7 @@ def json_numpy_obj_hook(dct):
 	"""
 		Decodes a previously encoded numpy ndarray
 		with proper shape and dtype
+
 		:param dct: (dict) json encoded ndarray
 		:return: (ndarray) if input was an encoded ndarray
 	"""
@@ -30,16 +32,18 @@ def json_numpy_obj_hook(dct):
 	return dct
 
 
+#todo: should now preserve order of keys; untested
 def npdump(obj, filepath, compresslevel = 5, **jsonkwargs):
 	with open(filepath, 'w+') as fh:
 		with GzipFile(fileobj = fh, mode = 'w+', compresslevel = compresslevel) as zh:
-			dump(obj = obj, fp = zh, cls = NumpyEncoder, **jsonkwargs)
+			dump(obj = obj, fp = zh, cls = NumpyEncoder, sort_keys = False, **jsonkwargs)
 
 
+#todo: should now preserve order of keys; untested
 def npload(filepath, **jsonkwargs):
 	with open(filepath, 'r') as fh:
 		with GzipFile(fileobj = fh, mode = 'r') as zh:
-			obj = load(fp = zh, object_hook = json_numpy_obj_hook, **jsonkwargs)
+			obj = load(fp = zh, object_pairs_hook = OrderedDict, object_hook = json_numpy_obj_hook, **jsonkwargs)
 	return obj
 
 
