@@ -10,7 +10,8 @@ try:
 	from commentjson import dump, load, JSONEncoder
 	JSON_COMMENTS = True
 except ImportError:
-	from json import dump, load, JSONEncoder
+	from json import dump, load, JSONEncoder, dumps
+
 	JSON_COMMENTS = False
 
 
@@ -38,10 +39,13 @@ def json_numpy_obj_hook(dct):
 
 
 #todo: should now preserve order of keys; untested
-def npdump(obj, filepath, compresslevel = 5, **jsonkwargs):
+def npdump(obj, filepath=None, compresslevel = 5, **jsonkwargs):
+	opts = {'obj': obj, 'cls': NumpyEncoder, 'sort_keys': False} + jsonkwargs
+	if filepath is None:
+		return dumps(**opts)
 	with open(filepath, 'w+') as fh:
 		with GzipFile(fileobj = fh, mode = 'w+', compresslevel = compresslevel) as zh:
-			dump(obj = obj, fp = zh, cls = NumpyEncoder, sort_keys = False, **jsonkwargs)
+			dump(fp = zh, **opts)
 
 
 #todo: should now preserve order of keys; untested
