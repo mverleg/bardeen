@@ -40,7 +40,8 @@ def json_numpy_obj_hook(dct):
 
 #todo: should now preserve order of keys; untested
 def npdump(obj, filepath=None, compresslevel = 5, **jsonkwargs):
-	opts = {'obj': obj, 'cls': NumpyEncoder, 'sort_keys': False} + jsonkwargs
+	opts = {'obj': obj, 'cls': NumpyEncoder, 'sort_keys': False}
+	opts.update(jsonkwargs)
 	if filepath is None:
 		return dumps(**opts)
 	with open(filepath, 'w+') as fh:
