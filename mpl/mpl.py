@@ -29,7 +29,6 @@ from sys import stderr
 from re import search
 from os.path import join
 import matplotlib
-#matplotlib.use('Qt4Agg')
 from types import MethodType, StringTypes
 from collections import defaultdict
 from bardeen.mpl.order import MPLorder
