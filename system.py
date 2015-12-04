@@ -3,7 +3,7 @@
 	System related utilities (e.g. filesystem)
 """
 
-from os import link, makedirs
+from os import symlink, makedirs
 from shutil import copyfile
 from errno import EEXIST
 from os.path import exists, isdir
@@ -11,7 +11,7 @@ from os.path import exists, isdir
 
 def link_else_copy(filename_from, filename_to):
 	"""
-		Try to create a hard-link 'copy' of a file (almost no space use).
+		Try to create a symbolic link 'copy' of a file (almost no space use).
 
 		If that doesn't work then really copy them (files are independent).
 
@@ -19,9 +19,11 @@ def link_else_copy(filename_from, filename_to):
 		:param filename_to: the desired new file
 		:return: True if linking worked, False otherwise
 		:raise: OSError if copy fails
+
+		This command was switched from hard to soft links because it's clearer and works across filesystem boundaries.
 	"""
 	try:
-		link(filename_from, filename_to)
+		symlink(filename_from, filename_to)
 		return True
 	except OSError:
 		copyfile(filename_from, filename_to)
