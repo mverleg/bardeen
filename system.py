@@ -30,7 +30,7 @@ def link_else_copy(filename_from, filename_to):
 		return False
 
 
-def mkdirp(dir_path, mode=0x750):
+def mkdirp(dir_path, mode=None):
 	"""
 		Creates all the directories on dir_path if they do not exist.
 
@@ -43,7 +43,10 @@ def mkdirp(dir_path, mode=0x750):
 	if exists(dir_path) and not isdir(dir_path):
 		raise OSError('"%s" already exists, but is not a directory' % dir_path)
 	try:
-		makedirs(dir_path, mode=mode)
+		if mode is None:
+			makedirs(dir_path)
+		else:
+			makedirs(dir_path, mode=mode)
 	except OSError as err:
 		if err.errno != EEXIST:
 			raise
