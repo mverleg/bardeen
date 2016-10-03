@@ -1,6 +1,0 @@
-
-[foundation for science; alike to 'mu3' for websites; creates the basic structure of the project]
-Maybe scientific projects should employ a settings file (which can be Python, such as with Django) which defines which data files are used (and other things). At least in the final version, hard-coding in many different places can't be good.
-
-
-
