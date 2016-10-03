@@ -10,7 +10,7 @@ setup(
 	name='bardeen',
 	description='Collection of scientific utilities.',
 	long_description=readme,
-	url='',
+	url='https://github.com/mverleg/bardeen',
 	author='Mark V',
 	maintainer='(the author)',
 	author_email='mdilligaf@gmail.com',
