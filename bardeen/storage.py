@@ -1,6 +1,6 @@
 
 """
-	utility methods for storing and retrieving data structures
+Utility methods for storing and retrieving data structures.
 """
 
 from genericpath import getmtime
@@ -40,7 +40,7 @@ def fail_if_too_old(filename, max_age = None):
 
 def store_str(string, filename, compressed = False):
 	"""
-		Store a string to a file.
+	Store a string to a file.
 	"""
 	mkdirp(dirname(filename))
 	if compressed:
@@ -53,7 +53,7 @@ def store_str(string, filename, compressed = False):
 
 def load_str(filename, max_age = None, compressed = False):
 	"""
-		Load a string from a file.
+	Load a string from a file.
 	"""
 	fail_if_too_old(filename, max_age)
 	if compressed:
@@ -72,11 +72,11 @@ def load_str(filename, max_age = None, compressed = False):
 
 def store_array(arr, filename, header = ''):
 	"""
-		Store a numpy array in a format readable by many programs
-		(whitespace delimitered plain text with # header)
+	Store a numpy array in a format readable by many programs
+	(whitespace delimitered plain text with # header)
 
-		:param arr: numpy array
-		:param filename: (string) path to store the file; directory is created if it does not exist
+	:param arr: numpy array
+	:param filename: (string) path to store the file; directory is created if it does not exist
 	"""
 	mkdirp(dirname(filename))
 	if 'int' in unicode(arr.dtype):
@@ -88,13 +88,13 @@ def store_array(arr, filename, header = ''):
 
 def load_array(filename, dtype = float64, delimiter = '\t', max_age = None):
 	"""
-		Load a tab-delimitered array, e.g. as stored by :ref: store_array
+	Load a tab-delimitered array, e.g. as stored by :ref: store_array
 
-		:param filename: (string) path to the file
-		:param max_age: (None or number in seconds) if set, file will only be loaded if the file is newer than max_age
+	:param filename: (string) path to the file
+	:param max_age: (None or number in seconds) if set, file will only be loaded if the file is newer than max_age
 
-		:raises IOError: raied if file can't be opened
-		:raises IOAgeError: subclass of IOError, raised if file exists but is older than max_age
+	:raises IOError: raied if file can't be opened
+	:raises IOAgeError: subclass of IOError, raised if file exists but is older than max_age
 	"""
 	fail_if_too_old(filename, max_age)
 	return loadtxt(filename, dtype = dtype, delimiter = delimiter)
@@ -102,12 +102,12 @@ def load_array(filename, dtype = float64, delimiter = '\t', max_age = None):
 
 def store_array_bin(arr, filename):
 	"""
-		Store as binary, single-array numpy file
+	Store as binary, single-array numpy file
 
-		:param arr: numpy array
-		:param filename: (string) path to store the file; directory is created if it does not exist
+	:param arr: numpy array
+	:param filename: (string) path to store the file; directory is created if it does not exist
 
-		extension .npy is strongly recommended
+	extension .npy is strongly recommended
 	"""
 	#todo: maybe gzip later
 	mkdirp(dirname(filename))
@@ -116,13 +116,13 @@ def store_array_bin(arr, filename):
 
 def load_array_bin(filename, max_age = None):
 	"""
-		Load a binary, single-array numpy file
+	Load a binary, single-array numpy file
 
-		:param filename: (string) path to the file
-		:param max_age: (None or number in seconds) if set, file will only be loaded if the file is newer than max_age
+	:param filename: (string) path to the file
+	:param max_age: (None or number in seconds) if set, file will only be loaded if the file is newer than max_age
 
-		:raises IOError: raied if file can't be opened
-		:raises IOAgeError: subclass of IOError, raised if file exists but is older than max_age
+	:raises IOError: raied if file can't be opened
+	:raises IOAgeError: subclass of IOError, raised if file exists but is older than max_age
 	"""
 	fail_if_too_old(filename, max_age)
 	return load(filename)
@@ -135,16 +135,16 @@ def load_array_bin(filename, max_age = None):
 
 def store_conf(dicti, filename, header = None):
 	"""
-		Store a python dictionary with simple int, float, unicode elements
-		as a easily readable config file.
+	Store a python dictionary with simple int, float, unicode elements
+	as a easily readable config file.
 
-		:param dicti: (dict) dictionary to store; keys (config options) are not allowed to contain whitespace
-		:param filename: (string) path to store the file; directory is created if it does not exist
-		:param header: (string/None) if string, added at the beginning of the file
+	:param dicti: (dict) dictionary to store; keys (config options) are not allowed to contain whitespace
+	:param filename: (string) path to store the file; directory is created if it does not exist
+	:param header: (string/None) if string, added at the beginning of the file
 
-		* ``None`` is allowed for values but not keys
-		* Note that floats will be slightly different when loaded
-		* Note that string '0123' will be loaded as integer 123
+	* ``None`` is allowed for values but not keys
+	* Note that floats will be slightly different when loaded
+	* Note that string '0123' will be loaded as integer 123
 	"""
 	assert isinstance(dicti, Mapping), 'argument is not a dictonary-like object'
 	mkdirp(dirname(filename))
@@ -177,13 +177,13 @@ def store_conf(dicti, filename, header = None):
 
 def load_conf(filename, max_age = None):
 	"""
-		Load a whitespace-delimitered config file, e.g. as stored by :ref: store_conf.
+	Load a whitespace-delimitered config file, e.g. as stored by :ref: store_conf.
 
-		:param filename: (string) path to the file
-		:param max_age: (None or number in seconds) if set, file will only be loaded if the file is newer than max_age
+	:param filename: (string) path to the file
+	:param max_age: (None or number in seconds) if set, file will only be loaded if the file is newer than max_age
 
-		:raises IOError: raied if file can't be opened
-		:raises IOAgeError: subclass of IOError, raised if file exists but is older than max_age
+	:raises IOError: raied if file can't be opened
+	:raises IOAgeError: subclass of IOError, raised if file exists but is older than max_age
 	"""
 	fail_if_too_old(filename, max_age)
 	with open(filename, 'r') as fh:
@@ -215,14 +215,14 @@ def load_conf(filename, max_age = None):
 
 def store_dict(dicti, filename, compressed = False):
 	"""
-		Store a dictionary as json.
+	Store a dictionary as json.
 
-		:param dicti: (dict) dictionary to store
-		:param filename: (string) path to store the file; .gz is appended if compressed; directory is created if it does not exist
-		:param compressed: if True, the file is gzipped and .gz is appended to the filename
+	:param dicti: (dict) dictionary to store
+	:param filename: (string) path to store the file; .gz is appended if compressed; directory is created if it does not exist
+	:param compressed: if True, the file is gzipped and .gz is appended to the filename
 
-		* Contrary to :ref: store_conf, whitespace in keys is allowed
-		* See notes at :ref: store_conf
+	* Contrary to :ref: store_conf, whitespace in keys is allowed
+	* See notes at :ref: store_conf
 	"""
 	assert isinstance(dicti, Mapping), 'argument is not a dictonary-like object'
 	mkdirp(dirname(filename))
@@ -241,16 +241,16 @@ def store_dict(dicti, filename, compressed = False):
 
 def load_dict(filename, compressed = False, max_age = None):
 	"""
-		Load a json dictionary file, such as created by :ref: store_dict.
+	Load a json dictionary file, such as created by :ref: store_dict.
 
-		If compressed is True and the file does not end in .gz, it is automatically appended
-		(since store_dict appends it).
+	If compressed is True and the file does not end in .gz, it is automatically appended
+	(since store_dict appends it).
 
-		:param filename: (string) path to the file
-		:param max_age: (None or number in seconds) if set, file will only be loaded if the file is newer than max_age
+	:param filename: (string) path to the file
+	:param max_age: (None or number in seconds) if set, file will only be loaded if the file is newer than max_age
 
-		:raises IOError: raied by open() if file can't be opened
-		:raises IOAgeError: subclass of IOError, raised if file exists but is older than max_age
+	:raises IOError: raied by open() if file can't be opened
+	:raises IOAgeError: subclass of IOError, raised if file exists but is older than max_age
 	"""
 	fail_if_too_old(filename, max_age)
 	if compressed:

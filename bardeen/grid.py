@@ -1,6 +1,6 @@
 
 """
-	N-dimensional grid.
+N-dimensional grid.
 """
 
 from numpy import prod
@@ -12,7 +12,7 @@ stderr.write('These grid functions are deprecated since numpy offers the same fu
 
 def to_coordinate(index, dims):
 	"""
-		Convert from 'element N' to 'result matrix coordinate [x, y, z]'.
+	Convert from 'element N' to 'result matrix coordinate [x, y, z]'.
 	"""
 	assert 0 <= index < remaining_dims(dims)[0], 'The index {0:d} is out of bounds (the grid has {1:d} elements)'.format(index, remaining_dims(dims)[0])
 	return tuple(index // remaining_dims(dims)[k + 1] % dim for k, dim in enumerate(dims))
@@ -20,7 +20,7 @@ def to_coordinate(index, dims):
 
 def from_coordinate(coordinate, dims):
 	"""
-		Convert from 'result matrix coordinate [x, y, z]' to 'element N'.
+	Convert from 'result matrix coordinate [x, y, z]' to 'element N'.
 	"""
 	for coord, dim in zip(coordinate, dims):
 		assert 0 <= coord <  dim

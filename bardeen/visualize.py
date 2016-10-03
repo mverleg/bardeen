@@ -7,7 +7,7 @@ from numpy.random import rand, random_integers
 
 def confusion_probs(predictions, labels, ax = None, vmargin = 0.1, equalize = False, cmap = cm.jet):
 	"""
-		Make a confusion-matrix-like scatter plot
+	Make a confusion-matrix-like scatter plot
 	"""
 	N, D = predictions.shape
 	bins = bincount(labels)
@@ -48,7 +48,7 @@ def confusion_probs(predictions, labels, ax = None, vmargin = 0.1, equalize = Fa
 
 if __name__ == '__main__':
 	"""
-		Simple demonstration.
+	Simple demonstration.
 	"""
 	predictions = rand(10000, 6)
 	labels = hstack((random_integers(0, 5, size = (5000,)), random_integers(2, 3, size = (2500,)), [5] * 2500))

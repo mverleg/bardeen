@@ -1,7 +1,0 @@
-
-[tools for science; alike to 'misc' for websites; contains functionality common to several scientific projects]
-
-* statistical cross validation (automatic leave-many-out error etc)
-* non-randomize the unit tests
-
-

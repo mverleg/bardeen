@@ -4,13 +4,13 @@ from numpy import roll
 
 def translate(arr, shifts, fill_value = 0):
 	"""
-		For a numpy array (e.g. image), translate all values by an integer vector.
+	For a numpy array (e.g. image), translate all values by an integer vector.
 
-		:arg arr: The ndarray to shift (remains unaffected).
-		:arg shifts: The sequence of shift distances (integers).
-		:return: shifted array
+	:arg arr: The ndarray to shift (remains unaffected).
+	:arg shifts: The sequence of shift distances (integers).
+	:return: shifted array
 
-		Compare roll and pad.
+	Compare roll and pad.
 	"""
 	#todo: unit tests
 	Ns = arr.shape

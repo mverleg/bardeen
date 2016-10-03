@@ -1,6 +1,6 @@
 
 """
-	Functions for switching between code styles.
+Functions for switching between code styles.
 """
 
 from sys import argv, stderr
@@ -9,11 +9,11 @@ from re import sub, search, findall
 
 def docstrings(code, to_double = True):
 	"""
-		Converts between 3x' and 3x" as long as only one of them occurs in the file.
+	Converts between 3x' and 3x" as long as only one of them occurs in the file.
 	"""
 	single, double = "'''", '"""'
 	if single in code and double in code:
-		print 'skipping docstrings because both %s and %s appear' % (single, double)
+		print('skipping docstrings because both %s and %s appear' % (single, double))
 		return code
 	if to_double:
 		code = code.replace(single, double)
@@ -24,7 +24,7 @@ def docstrings(code, to_double = True):
 
 def indentation(code, to_tabs = True):
 	"""
-		Switch between indentation with tabs or 4 spaces
+	Switch between indentation with tabs or 4 spaces
 	"""
 	lines = code.splitlines()
 	for nr, line in enumerate(lines):
@@ -57,14 +57,14 @@ def group_by(collection, get_property):
 """
 	NOTE: if you add something, write a test!
 """'''
-print indentation(str, to_tabs = True)
-print indentation(indentation(str, to_tabs = True), to_tabs = False)
+print(indentation(str, to_tabs = True))
+print(indentation(indentation(str, to_tabs = True), to_tabs = False))
 exit()
 
 
 def first_lines(code, goal_empty_count = 1):
 	"""
-		Makes sure first lines are empty, after a possible #-prefix.
+	Makes sure first lines are empty, after a possible #-prefix.
 	"""
 	lines = code.splitlines()
 	if not lines:
@@ -89,7 +89,7 @@ def last_lines(code, goal_empty_count = 3):
 
 def argument_assignment(code, arg_space = True):
 	"""
-		Whitespace around = and the like.
+	Whitespace around = and the like.
 	"""
 	stderr.write('argument_assignment is not very precise; it will match some constructs such as (a,b)=(1,2) ' + \
 		'as well as any strings or comments; it won\'t break code but may create weird formatting\n')
@@ -110,7 +110,7 @@ def argument_assignment(code, arg_space = True):
 
 def imports_together(code):
 	"""
-		Remove empty lines between imports (like IDE's like to create).
+	Remove empty lines between imports (like IDE's like to create).
 	"""
 	lines = code.splitlines()
 	import_lines = _find_import_lines(lines)
@@ -124,9 +124,9 @@ def imports_together(code):
 
 def _find_import_lines(lines):
 	"""
-		Internal function that returns the line numbers of the top part import block.
+	Internal function that returns the line numbers of the top part import block.
 
-		Any code in the import section will stop the search at that point.
+	Any code in the import section will stop the search at that point.
 	"""
 	in_imports, import_lines = False, []
 	for nr, line in enumerate(lines):
@@ -143,7 +143,7 @@ def _find_import_lines(lines):
 
 def _prefix_empty_lines(lines, goal_empty_count):
 	"""
-		Internal function to prepend empty lines (no prefix considerations).
+	Internal function to prepend empty lines (no prefix considerations).
 	"""
 	""" find current empty line count """
 	current_empty_count = 0
@@ -161,15 +161,15 @@ def _prefix_empty_lines(lines, goal_empty_count):
 
 
 def _print_code(code):
-	print '+' * 20
+	print('+' * 20)
 	for nr, line in enumerate(code.splitlines()):
-		print '%3d\t%s' % (nr + 1, line.replace('\t', '~   '))
-	print '+' * 20
+		print('%3d\t%s' % (nr + 1, line.replace('\t', '~   ')))
+	print('+' * 20)
 
 
 def change_settings(code, to_tabs = None, to_double = None, start_empty = None, end_empty = None, arg_space = None):
 	"""
-		apply various settings to a code string
+	Apply various settings to a code string.
 	"""
 	if to_tabs is not None:
 		code = indentation(code, to_tabs = to_tabs)
@@ -188,7 +188,7 @@ def change_settings(code, to_tabs = None, to_double = None, start_empty = None, 
 def change_file(filepath, change = False, to_tabs = None, to_double = None, start_empty = None, end_empty = None,
 		arg_space = None):
 	"""
-		apply various settings to a file if change = True (otherwise prints only)
+	Apply various settings to a file if change = True (otherwise prints only).
 	"""
 	with open(filepath, 'r') as fh:
 		code = fh.read()
@@ -204,7 +204,7 @@ def change_file(filepath, change = False, to_tabs = None, to_double = None, star
 
 def pep_files(filepaths, change = False):
 	"""
-		Convert somewhat to pep-compliant format for all the files in list filepaths.
+	Convert somewhat to pep-compliant format for all the files in list filepaths.
 	"""
 	for filepath in filepaths:
 		change_file(filepath, change = change, to_double = False, arg_space = False)
@@ -212,7 +212,7 @@ def pep_files(filepaths, change = False):
 
 def mark_style_files(filepaths, change = False):
 	"""
-		Convert somewhat to pep-compliant format for all the files in list filepaths.
+	Convert somewhat to pep-compliant format for all the files in list filepaths.
 	"""
 	for filepath in filepaths:
 		change_file(filepath, change = change, to_double = True, arg_space = True, start_empty = 1, end_empty = 3)
@@ -220,13 +220,13 @@ def mark_style_files(filepaths, change = False):
 
 if __name__ == '__main__':
 	if len(argv) < 3:
-		print 'first argument should be the style; "pep" or "mark"'
-		print 'provide at least one file path of a python file (no directories)'
+		print('first argument should be the style; "pep" or "mark"')
+		print('provide at least one file path of a python file (no directories)')
 	filepaths = argv[2:]
 	if argv[1] == 'pep':
 		pep_files(filepaths)
 	elif argv[1] == 'mark':
 		mark_style_files(filepaths)
 	else:
-		print 'first argument should be the style; "pep" or "mark" (got %s)' % argv[1]
+		print('first argument should be the style; "pep" or "mark" (got %s)' % argv[1])
 

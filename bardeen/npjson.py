@@ -1,6 +1,6 @@
 
 """
-	This has been split into a seperate package: pyjson-tricks.
+This has been split into a separate package: pyjson-tricks.
 """
 
 from json_tricks import *

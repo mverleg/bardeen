@@ -1,6 +1,6 @@
 
 """
-	System related utilities (e.g. filesystem)
+System related utilities (e.g. filesystem)
 """
 
 from os import symlink, makedirs
@@ -11,16 +11,16 @@ from os.path import exists, isdir
 
 def link_else_copy(filename_from, filename_to):
 	"""
-		Try to create a symbolic link 'copy' of a file (almost no space use).
+	Try to create a symbolic link 'copy' of a file (almost no space use).
 
-		If that doesn't work then really copy them (files are independent).
+	If that doesn't work then really copy them (files are independent).
 
-		:param filename_from: the existing file
-		:param filename_to: the desired new file
-		:return: True if linking worked, False otherwise
-		:raise: OSError if copy fails
+	:param filename_from: the existing file
+	:param filename_to: the desired new file
+	:return: True if linking worked, False otherwise
+	:raise: OSError if copy fails
 
-		This command was switched from hard to soft links because it's clearer and works across filesystem boundaries.
+	This command was switched from hard to soft links because it's clearer and works across filesystem boundaries.
 	"""
 	try:
 		symlink(filename_from, filename_to)
@@ -32,13 +32,13 @@ def link_else_copy(filename_from, filename_to):
 
 def mkdirp(dir_path, mode=None):
 	"""
-		Creates all the directories on dir_path if they do not exist.
+	Creates all the directories on dir_path if they do not exist.
 
-		Like ``mkdir -p`` in shell.
+	Like ``mkdir -p`` in shell.
 
-		:param dir_path: path whose components will be created as directories
-		:raise: OSError for unexpected problems and if dir_path is something other than a directory;\
-		no error if directory already exists
+	:param dir_path: path whose components will be created as directories
+	:raise: OSError for unexpected problems and if dir_path is something other than a directory;\
+	no error if directory already exists
 	"""
 	if exists(dir_path) and not isdir(dir_path):
 		raise OSError('"%s" already exists, but is not a directory' % dir_path)
