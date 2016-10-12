@@ -278,12 +278,12 @@ class MPL(object):
 				''' there is no filename (just a label), so add all extensions to that and treat it like a filename '''
 				filenames.extend('%s.%s' % (fig.label, extension) for extension in self.default_extension)
 			if filenames:
-				print 'saving \'%s\' as %s' % (fig.label, ', '.join('\'%s\'' % filename for filename in filenames))
+				print('saving \'%s\' as %s' % (fig.label, ', '.join('\'%s\'' % filename for filename in filenames)))
 				for filename in filenames:
 					filename = join(self.directory, filename)
 					try:
 						fig.savefig(filename, dpi = fig.save_dpi)
-					except ValueError, err:
+					except ValueError as err:
 						if 'attempt to index field \'shared\' (a nil value)' in str(err):
 							stderr.write('There was a LaTeX error that usually means that the font was not found.\n')
 							exit(1)
@@ -301,9 +301,9 @@ class MPL(object):
 		''' any unsaved figures? '''
 		remaining_orders = sum(self.orders.values(), [])
 		if len(remaining_orders):
-			print 'there are %d unsaved orders! figures were not found for:' % len(remaining_orders)
+			print('there are %d unsaved orders! figures were not found for:' % len(remaining_orders))
 			for order in remaining_orders:
-				print '\'%s\' (\'%s\')' % (order.label, order.filename)
+				print('\'%s\' (\'%s\')' % (order.label, order.filename))
 		''' show all figures to prevent error '''
 		mpl_show(*args, **kwargs)
 

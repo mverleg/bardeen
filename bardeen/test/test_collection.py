@@ -3,7 +3,7 @@
 	unit tests for bardeen.collection
 """
 
-from bardeen.collection import group_by
+from bardeen.collection import group_by, without
 
 
 def test_group_by():
@@ -23,5 +23,13 @@ def test_group_by():
 	assert A in groups.keys() and B in groups.keys()
 	assert len(groups[A]) == 20 and len(groups[B]) == 40
 	assert all(item.__class__ is A for item in groups[A])
+
+
+def test_without():
+	li = list(range(5))
+	assert list(without(li, (0, 2))) == [1, 3, 4]
+	assert list(without(li, 3)) == [0, 1, 2, 4]
+	print(without(li, 3))
+	assert False
 
 

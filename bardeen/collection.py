@@ -18,3 +18,18 @@ def group_by(collection, get_property):
 		grouped[get_property(item)].append(item)
 	return grouped
 
+
+def without(iterable, remove_indices):
+	"""
+	Returns an iterable for a collection or iterable, which returns all items except the specified indices.
+	"""
+	if not hasattr(remove_indices, '__iter__'):
+		remove_indices = {remove_indices}
+	else:
+		remove_indices = set(remove_indices)
+	for k, item in enumerate(iterable):
+		if k in remove_indices:
+			continue
+		yield item
+
+

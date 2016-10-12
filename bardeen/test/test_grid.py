@@ -36,7 +36,7 @@ def test_out_of_bounds():
 	with raises(AssertionError):
 		to_coordinate(-1, dims)
 	with raises(AssertionError):
-		print to_coordinate(prod(dims), dims)
+		print(to_coordinate(prod(dims), dims))
 	with raises(AssertionError):
 		from_coordinate((0, 0, 0, -1), dims)
 	with raises(AssertionError):
