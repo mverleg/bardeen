@@ -2,3 +2,4 @@
 bardeen.egg-info/
 /build/
 /dist/
+.cache/
