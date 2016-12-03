@@ -3,7 +3,7 @@
 	unit tests for bardeen.collection
 """
 
-from bardeen.collection import group_by, without
+from bardeen.collection import group_by, without, make_unique_strs
 
 
 def test_group_by():
@@ -31,5 +31,9 @@ def test_without():
 	assert list(without(li, 3)) == [0, 1, 2, 4]
 	print(without(li, 3))
 	assert False
+
+
+def test_make_unique_strs():
+	assert make_unique_strs(['alpha', 'alpha', 'beta', 'alpha']) == ['alpha-1', 'alpha-2', 'beta', 'alpha-3']
 
 

@@ -33,3 +33,24 @@ def without(iterable, remove_indices):
 		yield item
 
 
+def make_unique_strs(labels):
+	"""
+	Add numerical postfix to every string in the list to make all of them unique.
+	"""
+	unique_labels = []
+	used_labels = set()
+	counts = defaultdict(int)
+	for label in labels:
+		counts[label] += 1
+	for label, cnt in counts.items():
+		if cnt > 1:
+			used_labels.add(label)
+	for baselabel in labels:
+		label, k = baselabel, 1
+		while label in used_labels:
+			label = '{0:}-{1:d}'.format(baselabel, k)
+			k += 1
+		used_labels.add(label)
+		unique_labels.append(label)
+	return unique_labels
+
