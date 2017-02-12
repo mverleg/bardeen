@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Test utilities &mdash; bardeen 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="bardeen 1.0 documentation" href="index.html" />
+    <link rel="next" title="Test input &amp; output" href="inout.html" />
+    <link rel="prev" title="System" href="system.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="inout.html" title="Test input &amp; output"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="system.html" title="System"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">bardeen 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-testutils">
+<span id="test-utilities"></span><h1>Test utilities<a class="headerlink" href="#module-testutils" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="testutils.create_file">
+<code class="descclassname">testutils.</code><code class="descname">create_file</code><span class="sig-paren">(</span><em>dir_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/testutils.html#create_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#testutils.create_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a small random file, for testing.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dir_path</strong> &#8211; (temporary) dir to create the file</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">full path to the file</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="testutils.dict_round_floats">
+<code class="descclassname">testutils.</code><code class="descname">dict_round_floats</code><span class="sig-paren">(</span><em>dicti</em>, <em>decim=6</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/testutils.html#dict_round_floats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#testutils.dict_round_floats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Go through a dict and round all floats (in keys and values) to a specific number of decimal places, to make it
+possible to compare a dict that has been saved and loaded, or some math applied.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">no return value; <strong>substitution happens in-place</strong>!</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="testutils.get_random_string">
+<code class="descclassname">testutils.</code><code class="descname">get_random_string</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/testutils.html#get_random_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#testutils.get_random_string" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">random string of 2-16 printable characters, without newlines</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="testutils.get_random_word">
+<code class="descclassname">testutils.</code><code class="descname">get_random_word</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/testutils.html#get_random_word"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#testutils.get_random_word" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">random alphanumeric word of 2-16 characters</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="system.html"
+                        title="previous chapter">System</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="inout.html"
+                        title="next chapter">Test input &amp; output</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/testutils.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="inout.html" title="Test input &amp; output"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="system.html" title="System"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">bardeen 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2014, Mark.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>
