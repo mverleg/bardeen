@@ -15,7 +15,7 @@ def reduce_arrays_align0(arrays, reduce_func=lambda a, b: a + b):
 	if len(arrays) == 0:
 		return 0
 	if len(arrays) == 1:
-		return arrays[1]
+		return arrays[0]
 	shapes = tuple(arr.shape for arr in arrays)
 	dim_counts = set(len(shape) for shape in shapes)
 	assert len(dim_counts) == 1, ('number (not size) of dimensions should be the '
