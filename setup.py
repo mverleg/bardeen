@@ -16,7 +16,7 @@ setup(
 	author_email='mdilligaf@gmail.com',
 	license='Revised BSD License (LICENSE.txt)',
 	keywords=[],
-	version='1.4.1',
+	version='1.4.2',
 	packages=['bardeen'],
 	include_package_data=True,
 	zip_safe=False,
